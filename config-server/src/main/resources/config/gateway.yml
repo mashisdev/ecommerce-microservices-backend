@@ -7,7 +7,7 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: service-example
+        - id: product
           uri: http://localhost:8081
           predicates:
-            - Path=/api/service-example/**
+            - Path=/api/products/**
