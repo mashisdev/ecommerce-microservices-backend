@@ -7,9 +7,9 @@
 		<artifactId>parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>product</artifactId>
-	<name>product</name>
-	<description>Product Microservice</description>
+	<artifactId>order</artifactId>
+	<name>order</name>
+	<description>Order Microservice</description>
 
 	<properties>
 		<java.version>21</java.version>
