@@ -25,8 +25,8 @@ public record CreateProductRequest(
         BigDecimal unitPrice,
 
         @NotNull(message = "Category ID cannot be null")
-        Long category,
+        Long categoryId,
 
         @NotNull(message = "Brand ID cannot be null")
-        Long brand
+        Long brandId
 ) {}

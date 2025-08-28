@@ -11,8 +11,8 @@ public record ProductDto(
         String imageUrl,
         int stock,
         BigDecimal unitPrice,
-        Long category,
-        Long brand,
+        Long categoryId,
+        Long brandId,
         LocalDateTime createdDate,
         LocalDateTime lastModifiedDate
 ) {}

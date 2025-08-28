@@ -25,10 +25,10 @@ public record UpdateProductRequest(
         BigDecimal unitPrice,
 
         @NotNull(message = "Category ID cannot be null")
-        Long category,
+        Long categoryId,
 
         @NotNull(message = "Brand ID cannot be null")
-        Long brand,
+        Long brandId,
 
         @NotNull(message = "Active status is required")
         Boolean active
