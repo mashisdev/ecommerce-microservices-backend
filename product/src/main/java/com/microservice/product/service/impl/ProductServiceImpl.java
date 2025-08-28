@@ -1,4 +1,4 @@
-package com.microservice.product.service;
+package com.microservice.product.service.impl;
 
 import com.microservice.product.dto.ProductDto;
 import com.microservice.product.dto.request.CreateProductRequest;
@@ -6,6 +6,7 @@ import com.microservice.product.dto.request.UpdateProductRequest;
 import com.microservice.product.entity.Product;
 import com.microservice.product.mapper.ProductMapper;
 import com.microservice.product.repository.ProductRepository;
+import com.microservice.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

@@ -13,6 +13,6 @@ public record ProductDto(
         BigDecimal unitPrice,
         Long categoryId,
         Long brandId,
-        LocalDateTime createdDate,
-        LocalDateTime lastModifiedDate
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) {}
