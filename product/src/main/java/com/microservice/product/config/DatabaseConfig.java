@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.r2dbc.R2dbcProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.r2dbc.config.EnableR2dbcAuditing;
 
 @Configuration
+@EnableR2dbcAuditing
 @EnableConfigurationProperties({ R2dbcProperties.class, FlywayProperties.class })
 class DatabaseConfig {
     @Bean(initMethod = "migrate")

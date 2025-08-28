@@ -5,5 +5,7 @@ CREATE TABLE products (
     active BOOLEAN DEFAULT TRUE,
     image_url VARCHAR(255),
     stock INT NOT NULL,
-    unit_price DECIMAL(10, 2) NOT NULL
+    unit_price DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
 );
