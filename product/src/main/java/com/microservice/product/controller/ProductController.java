@@ -18,10 +18,5 @@ public class ProductController {
 
     public final ProductRepository productService;
 
-    @PostMapping
-    public ResponseEntity<Mono<Product>> create(@RequestBody Product product){
-        Mono<Product> saved = productService.save(product);
 
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
-    }
 }
