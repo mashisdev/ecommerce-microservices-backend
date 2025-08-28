@@ -34,3 +34,6 @@ CREATE TABLE products (
         FOREIGN KEY (category_id)
         REFERENCES categories(id)
 );
+
+CREATE INDEX idx_products_brand_id ON products(brand_id);
+CREATE INDEX idx_products_category_id ON products(category_id);
