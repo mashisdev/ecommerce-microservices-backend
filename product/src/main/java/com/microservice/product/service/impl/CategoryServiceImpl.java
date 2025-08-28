@@ -8,6 +8,7 @@ import com.microservice.product.repository.CategoryRepository;
 import com.microservice.product.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -18,6 +19,8 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
+    @Transactional
+    @Override
     public Mono<CategoryDto> createCategory(CategoryRequest request) {
         Category newCategory = new Category();
         newCategory.setName(request.name());
@@ -25,16 +28,22 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(categoryMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
+    @Override
     public Flux<CategoryDto> getAllCategories() {
         return categoryRepository.findAll()
                 .map(categoryMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
+    @Override
     public Mono<CategoryDto> getCategoryById(Long id) {
         return categoryRepository.findById(id)
                 .map(categoryMapper::toDto);
     }
 
+    @Transactional
+    @Override
     public Mono<CategoryDto> updateCategory(Long id, CategoryRequest request) {
         return categoryRepository.findById(id)
                 .flatMap(category -> {
@@ -44,6 +53,8 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(categoryMapper::toDto);
     }
 
+    @Transactional
+    @Override
     public Mono<Void> deleteCategory(Long id) {
         return categoryRepository.deleteById(id);
     }
