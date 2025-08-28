@@ -19,6 +19,7 @@ public class Brand {
     private Long id;
     private String name;
 
+    // Auditing
     @Column("created_at")
     @CreatedDate
     private LocalDateTime createdAt;

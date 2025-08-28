@@ -35,6 +35,9 @@ public class Product {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    private Long category;
-    private Long brand;
+    // Relations 1-n
+    @Column("category_id")
+    private Long categoryId;
+    @Column("brand_id")
+    private Long brandId;
 }
