@@ -10,4 +10,4 @@ spring:
         - id: product
           uri: http://localhost:8081
           predicates:
-            - Path=/api/products/**, /api/categories/**
+            - Path=/api/products/**, /api/categories/**, /api/brands/**
