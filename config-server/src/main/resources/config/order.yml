@@ -1,0 +1,13 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: order
+  r2dbc:
+    url: r2dbc:mysql://localhost:3307/order_db
+    username: orderuser
+    password: Password124
+  flyway:
+    enabled: true
+    url: jdbc:mysql://localhost:3307/order_db

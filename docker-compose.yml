@@ -1,4 +1,32 @@
 services:
+  product-mysql:
+    image: mysql:8.3
+    container_name: product-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'product_db'
+      MYSQL_USER: 'productuser'
+      MYSQL_PASSWORD: 'Password12'
+      MYSQL_ROOT_PASSWORD: 'Password12'
+    ports:
+      - "3306:3306"
+    volumes:
+      - product_data:/var/lib/mysql
+
+  order-mysql:
+    image: mysql:8.3
+    container_name: order-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'order_db'
+      MYSQL_USER: 'orderuser'
+      MYSQL_PASSWORD: 'Password124'
+      MYSQL_ROOT_PASSWORD: 'Password124'
+    ports:
+      - "3307:3306"
+    volumes:
+      - order_data:/var/lib/mysql
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.2.15
     networks:
@@ -29,3 +57,7 @@ services:
 networks:
   broker-kafka:
     driver: bridge
+
+volumes:
+  product_data:
+  order_data:
