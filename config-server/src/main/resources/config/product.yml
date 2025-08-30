@@ -11,3 +11,12 @@ spring:
   flyway:
     enabled: true
     url: jdbc:mysql://localhost:3306/product_db
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: product-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: "*"
