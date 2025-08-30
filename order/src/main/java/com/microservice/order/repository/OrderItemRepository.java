@@ -1,9 +1,7 @@
 package com.microservice.order.repository;
 
-import com.microservice.order.entity.Order;
+import com.microservice.order.entity.OrderItem;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 
-import java.util.UUID;
-
-public interface OrderItemRepository extends R2dbcRepository<Order, UUID> {
+public interface OrderItemRepository extends R2dbcRepository<OrderItem, Long> {
 }
