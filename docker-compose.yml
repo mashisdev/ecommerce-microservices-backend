@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: 'Password12'
       MYSQL_ROOT_PASSWORD: 'Password12'
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - product_data:/var/lib/mysql
 
@@ -20,10 +20,10 @@ services:
     environment:
       MYSQL_DATABASE: 'order_db'
       MYSQL_USER: 'orderuser'
-      MYSQL_PASSWORD: 'Password124'
-      MYSQL_ROOT_PASSWORD: 'Password124'
+      MYSQL_PASSWORD: 'Password123'
+      MYSQL_ROOT_PASSWORD: 'Password123'
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - order_data:/var/lib/mysql
 

@@ -5,15 +5,15 @@ spring:
   application:
     name: order
   r2dbc:
-    url: r2dbc:mysql://localhost:3307/order_db
+    url: r2dbc:mysql://localhost:3306/order_db
     username: orderuser
-    password: Password124
+    password: Password123
   flyway:
     enabled: true
-    url: jdbc:mysql://localhost:3307/order_db
+    url: jdbc:mysql://localhost:3306/order_db
   kafka:
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       retries: '1'

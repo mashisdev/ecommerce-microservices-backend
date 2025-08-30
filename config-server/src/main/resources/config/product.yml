@@ -5,12 +5,12 @@ spring:
   application:
     name: product
   r2dbc:
-    url: r2dbc:mysql://localhost:3306/product_db
+    url: r2dbc:mysql://localhost:3307/product_db
     username: productuser
     password: Password12
   flyway:
     enabled: true
-    url: jdbc:mysql://localhost:3306/product_db
+    url: jdbc:mysql://localhost:3307/product_db
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
@@ -19,4 +19,7 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       auto-offset-reset: earliest
       properties:
-        spring.json.trusted.packages: "*"
+        spring:
+          json:
+            trusted:
+              packages: "*"
