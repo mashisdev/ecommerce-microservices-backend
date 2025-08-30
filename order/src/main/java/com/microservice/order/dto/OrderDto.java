@@ -19,8 +19,8 @@ public class OrderDto {
     private int totalQuantity;
     private BigDecimal totalPrice;
     private OrderStatus status;
-    private LocalDateTime createdDate;
-    private LocalDateTime lastModifiedDate;
-    private UUID userId;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+//    private UUID userId;
     private List<OrderItemDto> orderItems;
 }
