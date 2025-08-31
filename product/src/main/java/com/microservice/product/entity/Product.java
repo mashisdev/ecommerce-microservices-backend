@@ -23,7 +23,7 @@ public class Product {
     private boolean active;
     @Column("image_url")
     private String imageUrl;
-    private int stock;
+    private String sku;
     @Column("unit_price")
     private BigDecimal unitPrice;
 

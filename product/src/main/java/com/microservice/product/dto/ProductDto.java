@@ -9,7 +9,7 @@ public record ProductDto(
         String description,
         boolean active,
         String imageUrl,
-        int stock,
+        String sku,
         BigDecimal unitPrice,
         Long categoryId,
         Long brandId,

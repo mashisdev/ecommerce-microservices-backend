@@ -17,8 +17,10 @@ public record UpdateProductRequest(
         @Size(max = 255, message = "Image URL must not exceed 255 characters")
         String imageUrl,
 
-        @Min(value = 0, message = "Stock cannot be negative")
-        int stock,
+        @NotBlank(message = "SKU is required")
+        @Size(max = 50, message = "SKU must not exceed 50 characters")
+        @Pattern(regexp = "^[a-zA-Z0-9-]{1,50}$", message = "SKU must contain only letters, numbers, and hyphens")
+        String sku,
 
         @NotNull(message = "Unit price is required")
         @DecimalMin(value = "0.01", message = "Unit price must be greater than or equal to 0.01")

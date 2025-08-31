@@ -18,7 +18,7 @@ CREATE TABLE products (
     description VARCHAR(255),
     active BOOLEAN DEFAULT TRUE,
     image_url VARCHAR(255),
-    stock INT NOT NULL,
+    sku VARCHAR(255) UNIQUE NOT NULL,
     unit_price DECIMAL(10, 2) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,

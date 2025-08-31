@@ -1,0 +1,13 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: inventory
+  r2dbc:
+    url: r2dbc:mysql://localhost:3308/inventory_db
+    username: inventoryuser
+    password: Password1
+  flyway:
+    enabled: true
+    url: jdbc:mysql://localhost:3308/inventory_db

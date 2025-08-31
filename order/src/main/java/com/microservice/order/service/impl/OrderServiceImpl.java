@@ -21,7 +21,7 @@ import java.util.UUID;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderMapper orderMapper;
+//    private final OrderMapper orderMapper;
 
     @Override
     @Transactional
