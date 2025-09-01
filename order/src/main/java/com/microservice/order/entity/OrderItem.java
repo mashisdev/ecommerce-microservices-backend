@@ -19,9 +19,6 @@ public class OrderItem {
 
     private String sku;
 
-    @Column("product_id")
-    private Long productId;
-
     @Column("product_name")
     private String productName;
 
