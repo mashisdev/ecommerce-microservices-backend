@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS orders (
 
 CREATE TABLE IF NOT EXISTS order_item (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    sku VARCHAR(255) UNIQUE NOT NULL,
     product_id BIGINT,
     product_name VARCHAR(255) NOT NULL,
     image_url VARCHAR(255),

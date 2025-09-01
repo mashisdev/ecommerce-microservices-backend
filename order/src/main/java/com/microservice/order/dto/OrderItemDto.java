@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class OrderItemDto {
     private Long id;
+    private String sku;
     private int quantity;
     private BigDecimal unitPrice;
     private Long productId;

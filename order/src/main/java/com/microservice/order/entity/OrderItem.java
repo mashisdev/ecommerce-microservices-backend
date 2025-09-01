@@ -17,6 +17,8 @@ public class OrderItem {
     @Id
     private Long id;
 
+    private String sku;
+
     @Column("product_id")
     private Long productId;
 
