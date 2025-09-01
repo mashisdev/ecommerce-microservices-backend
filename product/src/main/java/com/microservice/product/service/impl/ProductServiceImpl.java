@@ -44,6 +44,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional(readOnly = true)
     @Override
+    public Mono<ProductDto> getProductBySku(String sku) {
+        return productRepository.findBySku(sku)
+                .map(productMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
     public Mono<Page<ProductDto>> getAllProducts(Pageable pageable) {
         Flux<ProductDto> productsFlux = productRepository.findAll()
                 .skip(pageable.getOffset())
