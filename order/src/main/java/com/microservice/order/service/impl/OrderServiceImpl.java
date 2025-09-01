@@ -21,7 +21,7 @@ import java.util.UUID;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-//    private final OrderMapper orderMapper;
+    private final OrderMapper orderMapper;
 
     @Override
     @Transactional
@@ -30,21 +30,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public OrderDto getOrderById(UUID orderId) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Mono<Page<OrderDto>> getAllOrders(Pageable pageable) {
         return null;
     }
 
     @Override
+    @Transactional
     public Mono<OrderDto> updateOrderStatus(UUID orderId, String newStatus) {
         return null;
     }
 
     @Override
+    @Transactional
     public Mono<Void> deleteOrder(UUID orderId) {
         return null;
     }
