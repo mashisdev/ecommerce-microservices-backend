@@ -1,5 +1,6 @@
 package com.microservice.inventory.controller;
 
+import com.microservice.inventory.dto.ConsumeInventoryRequest;
 import com.microservice.inventory.entity.Inventory;
 import com.microservice.inventory.service.InventoryService;
 import jakarta.validation.constraints.Min;
@@ -20,6 +21,12 @@ public class InventoryController {
     @ResponseStatus(HttpStatus.OK)
     public Mono<Integer> getStockBySku(@PathVariable @NotBlank String sku) {
         return inventoryService.getStockBySku(sku);
+    }
+
+    @PostMapping("/consume")
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<Inventory> consumeInventory(@RequestBody ConsumeInventoryRequest request) {
+        return inventoryService.consumeInventory(request.sku(), request.quantity());
     }
 
     @PutMapping("/{sku}")
