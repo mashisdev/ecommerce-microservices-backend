@@ -8,6 +8,14 @@ spring:
     gateway:
       routes:
         - id: product
-          uri: http://localhost:8081
+          uri: lb://product
           predicates:
             - Path=/api/products/**, /api/categories/**, /api/brands/**
+        - id: inventory
+          uri: lb://inventory
+          predicates:
+            - Path=/api/inventory/**
+        - id: order
+          uri: lb://order
+          predicates:
+            - Path=/api/orders/**
