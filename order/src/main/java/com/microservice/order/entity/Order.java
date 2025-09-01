@@ -42,15 +42,8 @@ public class Order {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
-//    private Set<OrderItem> orderItems = new HashSet<>();
-
     @Transient
     private Set<OrderItem> orderItems = new HashSet<>();
-
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private UserEntity user;
 
 //    @Column("user_id")
 //    private Long userId;
