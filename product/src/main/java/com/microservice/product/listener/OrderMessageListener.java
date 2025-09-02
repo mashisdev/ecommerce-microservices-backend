@@ -1,0 +1,50 @@
+package com.microservice.product.listener;
+import com.microservice.product.message.OrderItemRequest;
+import com.microservice.product.message.OrderMessage;
+import com.microservice.product.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class OrderMessageListener {
+
+    private final ProductService productService;
+    private final RabbitTemplate rabbitTemplate;
+
+    private static final String PRODUCT_RESPONSE_QUEUE = "product-data-response-queue";
+    private static final String PRODUCT_REQUEST_QUEUE = "product-data-request-queue";
+
+    @RabbitListener(queues = PRODUCT_REQUEST_QUEUE)
+    public void receiveOrderRequest(OrderMessage message) {
+        log.info("Received message from order service for order: {}", message.orderTrackingNumber());
+
+        Flux.fromIterable(message.items())
+                .flatMap(this::getProductDetails)
+                .collectList()
+                .flatMap(productItems -> {
+                    OrderResponse response = new OrderResponse(message.orderTrackingNumber(), productItems);
+                    rabbitTemplate.convertAndSend(PRODUCT_RESPONSE_QUEUE, response);
+                    return Mono.empty();
+                })
+                .subscribe();
+    }
+
+    private Mono<ProductItem> getProductDetails(OrderItemRequest item) {
+        return productService.getProductBySku(item.sku())
+                .map(product -> new ProductItem(product.sku(), item.quantity(), product.unitPrice()));
+    }
+
+    private record OrderResponse(String orderTrackingNumber, List<ProductItem> productItems) {}
+    private record ProductItem(String sku, int quantity, BigDecimal unitPrice) {}
+}

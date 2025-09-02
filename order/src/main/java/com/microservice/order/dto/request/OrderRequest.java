@@ -14,4 +14,3 @@ public record OrderRequest(
         @NotEmpty(message = "Order must contain at least one item")
         List<@Valid OrderItemRequest> items
 ) {}
-

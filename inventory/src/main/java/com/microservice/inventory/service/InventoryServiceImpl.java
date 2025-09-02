@@ -17,9 +17,8 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     @Transactional(readOnly = true)
-    public Mono<Integer> getStockBySku(String sku) {
+    public Mono<Inventory> getStockBySku(String sku) {
         return inventoryRepository.findBySku(sku)
-                .map(Inventory::getQuantity)
                 .switchIfEmpty(Mono.error(() -> new InventoryNotFoundException("Inventory not found for SKU: " + sku)));
     }
 

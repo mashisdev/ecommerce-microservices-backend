@@ -14,5 +14,4 @@ public class OrderItemDto {
     private String sku;
     private int quantity;
     private BigDecimal unitPrice;
-    private Long productId;
 }

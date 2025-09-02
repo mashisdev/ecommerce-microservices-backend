@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -22,5 +22,5 @@ public class OrderDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 //    private UUID userId;
-    private List<OrderItemDto> orderItems;
+    private Set<OrderItemDto> orderItems;
 }

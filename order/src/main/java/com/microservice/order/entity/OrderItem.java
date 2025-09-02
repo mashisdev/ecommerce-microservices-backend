@@ -19,12 +19,6 @@ public class OrderItem {
 
     private String sku;
 
-    @Column("product_name")
-    private String productName;
-
-    @Column("image_url")
-    private String imageUrl;
-
     @Column("unit_price")
     private BigDecimal unitPrice;
 
