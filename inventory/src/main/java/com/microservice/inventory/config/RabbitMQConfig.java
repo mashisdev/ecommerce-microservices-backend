@@ -1,4 +1,4 @@
-package com.microservice.product.config;
+package com.microservice.inventory.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     @Bean
-    public Queue productDataRequestQueue() {
-        return new Queue("product-data-request-queue", true);
+    public Queue inventoryUpdateQueue() {
+        return new Queue("inventory-update-queue", true);
     }
 }
