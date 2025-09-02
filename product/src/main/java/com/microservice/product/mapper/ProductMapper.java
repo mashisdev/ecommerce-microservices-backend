@@ -15,6 +15,7 @@ public interface ProductMapper {
     @Mapping(source = "updatedAt", target = "updatedAt")
     ProductDto toDto(Product product);
 
+    @Mapping(target = "quantity", ignore = true)
     Product toEntity(CreateProductRequest request);
 
     @Mapping(target = "id", ignore = true)

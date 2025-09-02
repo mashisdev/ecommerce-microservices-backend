@@ -1,6 +1,8 @@
 package com.microservice.product.service.impl;
 
 import com.microservice.product.dto.ProductDto;
+import com.microservice.product.exception.ProductNotFoundException;
+import com.microservice.product.message.response.ProductMessageResponse;
 import com.microservice.product.dto.request.CreateProductRequest;
 import com.microservice.product.dto.request.UpdateProductRequest;
 import com.microservice.product.entity.Product;
@@ -8,6 +10,8 @@ import com.microservice.product.mapper.ProductMapper;
 import com.microservice.product.repository.ProductRepository;
 import com.microservice.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -19,11 +23,13 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final RabbitTemplate rabbitTemplate;
 
     @Transactional
     @Override
@@ -32,7 +38,16 @@ public class ProductServiceImpl implements ProductService {
         newProduct.setActive(true);
 
         return productRepository.save(newProduct)
-                .map(productMapper::toDto);
+                .map(product -> {
+                    ProductDto productDto = productMapper.toDto(product);
+                    ProductMessageResponse message = new ProductMessageResponse(
+                            product.getSku(),
+                            "CREATE",
+                            request.quantity()
+                    );
+                    rabbitTemplate.convertAndSend("inventory-update-queue", message);
+                    return productDto;
+                });
     }
 
     @Transactional(readOnly = true)
@@ -81,6 +96,24 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public Mono<Void> deleteProduct(Long productId) {
-        return productRepository.deleteById(productId);
+        return productRepository.findById(productId)
+                .switchIfEmpty(Mono.error(new ProductNotFoundException("Product with ID " + productId + " not found.")))
+                .flatMap(product -> {
+                    String sku = product.getSku();
+                    return productRepository.deleteById(productId)
+                            .then(Mono.fromRunnable(() -> {
+                                ProductMessageResponse message = new ProductMessageResponse(
+                                        sku,
+                                        "DELETE",
+                                        null
+                                );
+                                rabbitTemplate.convertAndSend("inventory-update-queue", message);
+                                log.info("DELETE event sent for product with SKU: {}", sku);
+                            }))
+                            .onErrorResume(e -> {
+                                log.error("Error deleting product with ID {}: {}", productId, e.getMessage());
+                                return Mono.error(e);
+                            });
+                }).then();
     }
 }

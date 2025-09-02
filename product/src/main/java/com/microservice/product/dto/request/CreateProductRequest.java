@@ -22,6 +22,10 @@ public record CreateProductRequest(
         @Pattern(regexp = "^[a-zA-Z0-9-]{1,50}$", message = "SKU must contain only letters, numbers, and hyphens")
         String sku,
 
+        @NotNull(message = "Quantity cannot be null")
+        @Min(value = 0, message = "Quantity must be greater than or equal to 0")
+        Integer quantity,
+
         @NotNull(message = "Unit price is required")
         @DecimalMin(value = "0.01", message = "Unit price must be greater than or equal to 0.01")
         BigDecimal unitPrice,

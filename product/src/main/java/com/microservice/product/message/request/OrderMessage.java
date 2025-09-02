@@ -1,4 +1,4 @@
-package com.microservice.product.message;
+package com.microservice.product.message.request;
 
 import java.util.List;
 

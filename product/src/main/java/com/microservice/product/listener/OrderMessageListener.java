@@ -1,6 +1,6 @@
 package com.microservice.product.listener;
-import com.microservice.product.message.OrderItemRequest;
-import com.microservice.product.message.OrderMessage;
+import com.microservice.product.message.request.OrderItemRequest;
+import com.microservice.product.message.request.OrderMessage;
 import com.microservice.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 import java.util.List;
 
 @Service

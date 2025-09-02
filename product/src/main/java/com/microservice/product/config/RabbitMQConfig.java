@@ -11,4 +11,9 @@ public class RabbitMQConfig {
     public Queue productDataRequestQueue() {
         return new Queue("product-data-request-queue", true);
     }
+
+    @Bean
+    public Queue inventoryUpdateQueue() {
+        return new Queue("inventory-update-queue", true);
+    }
 }
