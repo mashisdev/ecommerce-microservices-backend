@@ -5,15 +5,28 @@ import com.microservice.inventory.exception.InsufficientStockException;
 import com.microservice.inventory.exception.InventoryNotFoundException;
 import com.microservice.inventory.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
+
+    public Mono<Inventory> createInventory(String sku, Integer quantity) {
+        Inventory newInventory = new Inventory();
+        newInventory.setSku(sku);
+        newInventory.setQuantity(quantity);
+
+        log.info("Attempting to create inventory for SKU: {} with quantity: {}", sku, quantity);
+        return inventoryRepository.save(newInventory)
+                .doOnSuccess(inventory -> log.info("Successfully created inventory for SKU: {}", inventory.getSku()))
+                .doOnError(error -> log.error("Error creating inventory for SKU {}: {}", sku, error.getMessage()));
+    }
 
     @Override
     @Transactional(readOnly = true)

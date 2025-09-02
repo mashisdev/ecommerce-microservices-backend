@@ -5,6 +5,7 @@ import reactor.core.publisher.Mono;
 
 public interface InventoryService {
 
+    Mono<Inventory> createInventory(String sku, Integer quantity);
     Mono<Inventory> getStockBySku(String sku);
     Mono<Inventory> consumeInventory(String sku, Integer quantity);
     Mono<Inventory> updateInventory(String sku, Integer quantity);
