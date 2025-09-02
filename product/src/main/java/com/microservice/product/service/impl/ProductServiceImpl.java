@@ -54,6 +54,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Mono<ProductDto> getProductById(Long productId) {
         return productRepository.findById(productId)
+                .switchIfEmpty(Mono.error(new ProductNotFoundException("Product not found with ID: " + productId)))
                 .map(productMapper::toDto);
     }
 
@@ -61,6 +62,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Mono<ProductDto> getProductBySku(String sku) {
         return productRepository.findBySku(sku)
+                .switchIfEmpty(Mono.error(new ProductNotFoundException("Product not found with SKU: " + sku)))
                 .map(productMapper::toDto);
     }
 
