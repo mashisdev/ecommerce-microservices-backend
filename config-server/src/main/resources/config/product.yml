@@ -16,6 +16,14 @@ spring:
     port: 5672
     username: admin
     password: password
+    topic:
+      exchange: product-topic-exchange
+    keys:
+      inventory: product.inventory.#
+      order: product.order.#
+    queues:
+      inventory: inventory-update-queue
+      order: product-data-request-queue
 
 #  kafka:
 #    bootstrap-servers: localhost:9092

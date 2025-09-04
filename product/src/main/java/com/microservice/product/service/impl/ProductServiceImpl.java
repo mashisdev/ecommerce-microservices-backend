@@ -9,9 +9,9 @@ import com.microservice.product.entity.Product;
 import com.microservice.product.mapper.ProductMapper;
 import com.microservice.product.repository.ProductRepository;
 import com.microservice.product.service.ProductService;
+import com.microservice.product.service.RabbitMQJsonProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
-    private final RabbitTemplate rabbitTemplate;
+    private final RabbitMQJsonProducer rabbitMQJsonProducer;
 
     @Transactional
     @Override
@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
                             "CREATE",
                             request.quantity()
                     );
-                    rabbitTemplate.convertAndSend("inventory-update-queue", message);
+                    rabbitMQJsonProducer.sendInventoryMessage(message);
                     return productDto;
                 });
     }
@@ -109,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
                                         "DELETE",
                                         null
                                 );
-                                rabbitTemplate.convertAndSend("inventory-update-queue", message);
+                                rabbitMQJsonProducer.sendInventoryMessage(message);
                                 log.info("DELETE event sent for product with SKU: {}", sku);
                             }))
                             .onErrorResume(e -> {
