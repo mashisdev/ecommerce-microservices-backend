@@ -17,11 +17,13 @@ import com.microservice.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
@@ -126,9 +128,22 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public Mono<Page<OrderDto>> getAllOrders(Pageable pageable) {
-        return null;
+        Flux<OrderDto> ordersFlux = orderRepository.findAll(pageable.getSort())
+                .skip(pageable.getOffset())
+                .take(pageable.getPageSize())
+                .map(orderMapper::toDto);
+
+        Mono<Long> countMono = orderRepository.count();
+
+        return Mono.zip(ordersFlux.collectList(), countMono)
+                .map(tuple -> {
+                    List<OrderDto> orders = tuple.getT1();
+                    Long totalCount = tuple.getT2();
+                    return new PageImpl<>(orders, pageable, totalCount);
+                });
     }
 
+    // TO DO
     @Override
     @Transactional
     public Mono<OrderDto> updateOrderStatus(UUID orderId, String newStatus) {
@@ -138,6 +153,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Mono<Void> deleteOrder(UUID orderId) {
-        return null;
+        return orderRepository.deleteById(orderId);
     }
 }
