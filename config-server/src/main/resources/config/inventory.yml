@@ -16,3 +16,5 @@ spring:
     port: 5672
     username: admin
     password: password
+    queues:
+      inventory: inventory-update-queue

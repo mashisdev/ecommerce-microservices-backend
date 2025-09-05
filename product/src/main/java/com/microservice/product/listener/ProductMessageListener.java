@@ -22,10 +22,7 @@ public class ProductMessageListener {
     private final ProductService productService;
     private final RabbitMQJsonProducer rabbitMQJsonProducer;
 
-    private static final String PRODUCT_RESPONSE_QUEUE = "product-data-response-queue";
-    private static final String PRODUCT_REQUEST_QUEUE = "product-data-request-queue";
-
-    @RabbitListener(queues = PRODUCT_REQUEST_QUEUE)
+    @RabbitListener(queues = "${spring.rabbitmq.queues.order.request}")
     public void receiveOrderRequest(OrderMessage message) {
         log.info("Received message from order service for order: {}", message.orderTrackingNumber());
 

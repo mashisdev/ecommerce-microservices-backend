@@ -18,8 +18,10 @@ public class RabbitMQConfig {
 
     @Value("${spring.rabbitmq.queues.inventory}")
     private String inventoryQueueName;
-    @Value("${spring.rabbitmq.queues.order}")
-    private String orderQueueName;
+    @Value("${spring.rabbitmq.queues.order.response}")
+    private String orderResponseQueue;
+    @Value("${spring.rabbitmq.queues.order.request}")
+    private String orderRequestQueue;
 
     @Value("${spring.rabbitmq.keys.inventory}")
     private String inventoryKey;
@@ -34,10 +36,13 @@ public class RabbitMQConfig {
     public Queue inventoryUpdateQueue() {
         return new Queue(inventoryQueueName, true);
     }
-
-    @Bean("orderUpdateQueue")
-    public Queue orderUpdateQueue() {
-        return new Queue(orderQueueName, true);
+    @Bean("orderResponseQueue")
+    public Queue orderResponseQueue() {
+        return new Queue(orderResponseQueue, true);
+    }
+    @Bean("orderRequestQueue")
+    public Queue orderRequestQueue() {
+        return new Queue(orderRequestQueue, true);
     }
 
     // Exchange
@@ -55,7 +60,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding orderBinding(@Qualifier("orderUpdateQueue") Queue queue, TopicExchange exchange) {
+    public Binding orderResponseBinding(@Qualifier("orderResponseQueue") Queue queue, TopicExchange exchange) {
         return BindingBuilder.bind(queue)
                 .to(exchange)
                 .with(orderKey);
@@ -64,7 +69,7 @@ public class RabbitMQConfig {
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+        rabbitTemplate.setMessageConverter(jsonMessageConverter());
         return rabbitTemplate;
     }
 

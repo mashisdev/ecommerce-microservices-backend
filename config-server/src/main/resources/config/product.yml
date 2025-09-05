@@ -23,7 +23,9 @@ spring:
       order: product.order.#
     queues:
       inventory: inventory-update-queue
-      order: product-data-request-queue
+      order:
+        request: product-data-request-queue
+        response: product-data-response-queue
 
 #  kafka:
 #    bootstrap-servers: localhost:9092
