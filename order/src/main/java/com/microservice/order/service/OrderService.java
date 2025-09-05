@@ -1,7 +1,7 @@
 package com.microservice.order.service;
 
 import com.microservice.order.dto.OrderDto;
-import com.microservice.order.dto.message.ProductResponse;
+import com.microservice.order.rabbitmq.message.response.ProductResponse;
 import com.microservice.order.dto.request.OrderRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

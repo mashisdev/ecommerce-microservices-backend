@@ -1,6 +1,6 @@
 package com.microservice.order.rabbitmq.listener;
 
-import com.microservice.order.dto.message.ProductResponse;
+import com.microservice.order.rabbitmq.message.response.ProductResponse;
 import com.microservice.order.repository.OrderItemRepository;
 import com.microservice.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +17,7 @@ public class OrderMessageListener {
     private final OrderService orderService;
     private final OrderItemRepository orderItemRepository;
 
-    private static final String PRODUCT_RESPONSE_QUEUE = "product-data-response-queue";
-
-    @RabbitListener(queues = PRODUCT_RESPONSE_QUEUE)
+    @RabbitListener(queues = "${spring.rabbitmq.queues.order.response}")
     public Mono<Void> receiveProductData(ProductResponse message) {
         log.info("Received product data for order: {}", message.orderTrackingNumber());
 
