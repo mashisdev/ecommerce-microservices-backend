@@ -1,4 +1,4 @@
-package com.microservice.order.listener;
+package com.microservice.order.rabbitmq.listener;
 
 import com.microservice.order.dto.message.ProductResponse;
 import com.microservice.order.repository.OrderItemRepository;

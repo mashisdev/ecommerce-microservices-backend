@@ -1,4 +1,4 @@
-package com.microservice.product.service;
+package com.microservice.product.rabbitmq;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

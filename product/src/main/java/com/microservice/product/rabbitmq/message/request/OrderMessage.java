@@ -1,4 +1,4 @@
-package com.microservice.product.message.request;
+package com.microservice.product.rabbitmq.message.request;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.microservice.inventory.listener;
+package com.microservice.inventory.rabbitmq.listener;
 
 import com.microservice.inventory.service.InventoryService;
 import lombok.RequiredArgsConstructor;

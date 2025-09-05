@@ -14,10 +14,12 @@ import com.microservice.order.exception.ErrorMessage;
 import com.microservice.order.exception.InsufficientStockException;
 import com.microservice.order.exception.InventoryNotFoundException;
 import com.microservice.order.mapper.OrderMapper;
+import com.microservice.order.rabbitmq.RabbitMQJsonProducer;
 import com.microservice.order.repository.OrderItemRepository;
 import com.microservice.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -41,10 +43,10 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemRepository orderItemRepository;
     private final OrderMapper orderMapper;
     private final WebClient.Builder webClientBuilder;
-    private final RabbitTemplate rabbitTemplate;
+    private final RabbitMQJsonProducer rabbitMQJsonProducer;
 
-    private static final String INVENTORY_SERVICE_URL = "lb://inventory-service/api/inventory/consume";
-    private static final String PRODUCT_QUEUE_NAME = "product-data-request-queue";
+    @Value("${spring.webclient.inventory.url}")
+    private String INVENTORY_SERVICE_URL;
 
     @Override
     @Transactional
@@ -53,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
                 .then(Mono.defer(() -> {
                     String orderTrackingNumber = UUID.randomUUID().toString();
                     OrderMessage orderMessage = new OrderMessage(orderTrackingNumber, request.items());
-                    rabbitTemplate.convertAndSend(PRODUCT_QUEUE_NAME, orderMessage);
+                    rabbitMQJsonProducer.sendOrderMessage(orderMessage);
                     return Mono.just(orderTrackingNumber);
                 }));
     }

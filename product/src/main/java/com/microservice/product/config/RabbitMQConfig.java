@@ -58,7 +58,6 @@ public class RabbitMQConfig {
                 .to(exchange)
                 .with(inventoryKey);
     }
-
     @Bean
     public Binding orderResponseBinding(@Qualifier("orderResponseQueue") Queue queue, TopicExchange exchange) {
         return BindingBuilder.bind(queue)

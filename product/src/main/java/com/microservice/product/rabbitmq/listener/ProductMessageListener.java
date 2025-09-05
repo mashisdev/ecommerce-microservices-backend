@@ -1,9 +1,9 @@
-package com.microservice.product.listener;
+package com.microservice.product.rabbitmq.listener;
 
-import com.microservice.product.message.request.OrderItemRequest;
-import com.microservice.product.message.request.OrderMessage;
+import com.microservice.product.rabbitmq.message.request.OrderItemRequest;
+import com.microservice.product.rabbitmq.message.request.OrderMessage;
 import com.microservice.product.service.ProductService;
-import com.microservice.product.service.RabbitMQJsonProducer;
+import com.microservice.product.rabbitmq.RabbitMQJsonProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

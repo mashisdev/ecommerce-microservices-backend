@@ -2,14 +2,14 @@ package com.microservice.product.service.impl;
 
 import com.microservice.product.dto.ProductDto;
 import com.microservice.product.exception.ProductNotFoundException;
-import com.microservice.product.message.response.ProductMessageResponse;
+import com.microservice.product.rabbitmq.message.response.ProductMessageResponse;
 import com.microservice.product.dto.request.CreateProductRequest;
 import com.microservice.product.dto.request.UpdateProductRequest;
 import com.microservice.product.entity.Product;
 import com.microservice.product.mapper.ProductMapper;
 import com.microservice.product.repository.ProductRepository;
 import com.microservice.product.service.ProductService;
-import com.microservice.product.service.RabbitMQJsonProducer;
+import com.microservice.product.rabbitmq.RabbitMQJsonProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

@@ -11,6 +11,9 @@ spring:
   flyway:
     enabled: true
     url: jdbc:mysql://localhost:3306/order_db
+  webclient:
+    inventory:
+      url: lb://inventory-service/api/inventory/consume
   rabbitmq:
     host: localhost
     port: 5672
