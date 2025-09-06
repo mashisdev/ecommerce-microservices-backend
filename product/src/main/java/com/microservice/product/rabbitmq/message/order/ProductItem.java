@@ -1,4 +1,4 @@
-package com.microservice.order.rabbitmq.message.response;
+package com.microservice.product.rabbitmq.message.order;
 
 import java.math.BigDecimal;
 

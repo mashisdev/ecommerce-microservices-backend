@@ -1,7 +1,9 @@
 package com.microservice.product.rabbitmq.listener;
 
-import com.microservice.product.rabbitmq.message.request.OrderItemRequest;
-import com.microservice.product.rabbitmq.message.request.OrderMessage;
+import com.microservice.product.rabbitmq.message.order.OrderItemRequest;
+import com.microservice.product.rabbitmq.message.order.OrderMessageRequest;
+import com.microservice.product.rabbitmq.message.order.ProductItem;
+import com.microservice.product.rabbitmq.message.order.ProductMessageResponse;
 import com.microservice.product.service.ProductService;
 import com.microservice.product.rabbitmq.RabbitMQJsonProducer;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +12,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -23,14 +22,14 @@ public class ProductMessageListener {
     private final RabbitMQJsonProducer rabbitMQJsonProducer;
 
     @RabbitListener(queues = "${spring.rabbitmq.queues.order.request}")
-    public void receiveOrderRequest(OrderMessage message) {
+    public void receiveOrderRequest(OrderMessageRequest message) {
         log.info("Received message from order service for order: {}", message.orderTrackingNumber());
 
         Flux.fromIterable(message.items())
                 .flatMap(this::getProductDetails)
                 .collectList()
                 .flatMap(productItems -> {
-                    OrderResponse response = new OrderResponse(message.orderTrackingNumber(), productItems);
+                    ProductMessageResponse response = new ProductMessageResponse(message.orderTrackingNumber(), productItems);
                     rabbitMQJsonProducer.sendOrderMessage(response);
                     return Mono.empty();
                 })
@@ -42,6 +41,4 @@ public class ProductMessageListener {
                 .map(product -> new ProductItem(product.sku(), item.quantity(), product.unitPrice()));
     }
 
-    private record OrderResponse(String orderTrackingNumber, List<ProductItem> productItems) {}
-    private record ProductItem(String sku, int quantity, BigDecimal unitPrice) {}
 }

@@ -2,7 +2,7 @@ package com.microservice.product.service.impl;
 
 import com.microservice.product.dto.ProductDto;
 import com.microservice.product.exception.ProductNotFoundException;
-import com.microservice.product.rabbitmq.message.response.ProductMessageResponse;
+import com.microservice.product.rabbitmq.message.inventory.ProductMessageRequest;
 import com.microservice.product.dto.request.CreateProductRequest;
 import com.microservice.product.dto.request.UpdateProductRequest;
 import com.microservice.product.entity.Product;
@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(newProduct)
                 .map(product -> {
                     ProductDto productDto = productMapper.toDto(product);
-                    ProductMessageResponse message = new ProductMessageResponse(
+                    ProductMessageRequest message = new ProductMessageRequest(
                             product.getSku(),
                             "CREATE",
                             request.quantity()
@@ -104,7 +104,7 @@ public class ProductServiceImpl implements ProductService {
                     String sku = product.getSku();
                     return productRepository.deleteById(productId)
                             .then(Mono.fromRunnable(() -> {
-                                ProductMessageResponse message = new ProductMessageResponse(
+                                ProductMessageRequest message = new ProductMessageRequest(
                                         sku,
                                         "DELETE",
                                         null

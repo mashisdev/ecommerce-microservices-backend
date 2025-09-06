@@ -1,8 +1,8 @@
-package com.microservice.order.rabbitmq.message.response;
+package com.microservice.order.rabbitmq.message.product;
 
 import java.util.List;
 
-public record ProductResponse (
+public record ProductMessageResponse(
     String orderTrackingNumber,
     List<ProductItem> productItems
 ) {}

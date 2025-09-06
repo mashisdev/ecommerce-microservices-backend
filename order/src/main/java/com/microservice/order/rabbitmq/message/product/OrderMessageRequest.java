@@ -1,10 +1,10 @@
-package com.microservice.order.rabbitmq.message.request;
+package com.microservice.order.rabbitmq.message.product;
 
 import com.microservice.order.dto.request.OrderItemRequest;
 
 import java.util.List;
 
-public record OrderMessage(
+public record OrderMessageRequest(
         String orderTrackingNumber,
         List<OrderItemRequest> items
 ) {}

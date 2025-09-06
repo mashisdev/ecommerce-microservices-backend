@@ -1,8 +1,8 @@
 package com.microservice.order.service;
 
 import com.microservice.order.dto.OrderDto;
-import com.microservice.order.rabbitmq.message.request.OrderMessage;
-import com.microservice.order.rabbitmq.message.response.ProductResponse;
+import com.microservice.order.rabbitmq.message.product.OrderMessageRequest;
+import com.microservice.order.rabbitmq.message.product.ProductMessageResponse;
 import com.microservice.order.dto.request.OrderItemRequest;
 import com.microservice.order.dto.request.OrderRequest;
 import com.microservice.order.entity.Order;
@@ -51,8 +51,8 @@ public class OrderServiceImpl implements OrderService {
         return consumeInventory(request.items())
                 .then(Mono.defer(() -> {
                     String orderTrackingNumber = UUID.randomUUID().toString();
-                    OrderMessage orderMessage = new OrderMessage(orderTrackingNumber, request.items());
-                    rabbitMQJsonProducer.sendOrderMessage(orderMessage);
+                    OrderMessageRequest orderMessageRequest = new OrderMessageRequest(orderTrackingNumber, request.items());
+                    rabbitMQJsonProducer.sendOrderMessage(orderMessageRequest);
                     return Mono.just(orderTrackingNumber);
                 }));
     }
@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Mono<Void> createOrder(ProductResponse response) {
+    public Mono<Void> createOrder(ProductMessageResponse response) {
         Order newOrder = new Order();
         newOrder.setOrderTrackingNumber(response.orderTrackingNumber());
         newOrder.setStatus(OrderStatus.PENDING);
